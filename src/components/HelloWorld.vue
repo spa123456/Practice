@@ -10,8 +10,12 @@
             <el-button type="primary" @click="stopmusic">bbb</el-button>
             <el-main>
                 <el-table :data="currentPageData" style="width: 80%;margin:0 auto">
-                    <el-table-column type="index" label="日期" align="center"></el-table-column>
-                    <el-table-column prop="Fsinger_name" label="姓名" align="center"></el-table-column>
+                    <el-table-column type="index" label="序号" align="center" ></el-table-column>
+                    <el-table-column label="姓名" align="center">
+                        <template slot-scope="scope">
+                            <el-button type="primary" @click="singerDetails(scope.row)">{{scope.row.Fsinger_name}}</el-button>
+                        </template>
+                    </el-table-column>
                     <el-table-column align="center" label="大头贴">
                         <template slot-scope="scope">
                             <el-avatar shape="square" :size="100" :src="scope.row.url"></el-avatar>
@@ -93,7 +97,7 @@ export default {
             });
         },
         /**
-         * @description 分页的设置
+         * @description 前端分页的设置
          * @param {}
          * @return
          * @author lisheng
@@ -107,7 +111,6 @@ export default {
                 const element = this.currentPageData[index];
                 element.url = this.getsingerImgUrl[index];
             }
-            console.log(this.currentPageData);
         },
         handleSizeChange(val) {
             this.currentPage = val;
@@ -118,7 +121,7 @@ export default {
             this.musicList();
         },
         /**
-         * @description 歌手的照片请求
+         * @description 歌手的照片请求/因不能请求img类型，所以直接返回的连接
          * @param {}
          * @return
          * @author lisheng
@@ -126,6 +129,26 @@ export default {
         getsingerImg(row) {
             return (this.singerImgUrlitme = `https://y.gtimg.cn/music/photo_new/T001R300x300M000${row}.jpg?max_age=2592000`);
         },
+        /**
+        * @description 歌手详情页面
+        * @param {} 
+        * @return 
+        * @author lisheng
+        **/
+        singerDetails(row){
+            $.ajax({
+                url : `https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?is_xml=0&format=jsonp&g_tk=1742895503&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&key=${row.Fsinger_name}`,
+                type : 'get',
+                dataType : 'jsonp',
+                jsonp : 'jsonpCallback',
+                success:res => {
+                    console.log(res);
+                    this.$router.push('/singerDetails')
+                }
+            })
+            
+        },
+        // 播放音乐使用音乐ID播放
         player(musicId) {
             let onplay = () => {
                 this.flag = !this.flag;
@@ -134,13 +157,16 @@ export default {
             onplay();
             this.flag ? player.play(musicId) : player.pause();
         },
+
+
         playmusic() {
             // this.musicList()
             this.player("004dFFPd4JNv8q");
         },
         stopmusic() {
             this.musicList();
-            // this.singerImg();
+            player.pause()
+            this.flag = !this.flag
         }
     }
 };

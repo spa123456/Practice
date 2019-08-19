@@ -9,7 +9,13 @@ export default new Router({
     {
       path: '/',
       name: 'login',
-      component: () => import('@/components/HelloWorld')
+      component: () => import('@/components/HelloWorld'),
+      children: []
+    },
+    {
+      path: '/singerDetails',
+      name: 'singerDetails',
+      component: () => import('@/components/views/SingerDetails')
     }
   ]
 })
