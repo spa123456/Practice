@@ -142,11 +142,15 @@ export default {
                 dataType : 'jsonp',
                 jsonp : 'jsonpCallback',
                 success:res => {
-                    console.log(res);
-                    this.$router.push('/singerDetails')
+                    // console.log(res);
+                    this.$router.push({
+                        path:'/singerDetails',
+                        query:{
+                            res : res
+                        }
+                    })
                 }
             })
-            
         },
         // 播放音乐使用音乐ID播放
         player(musicId) {
