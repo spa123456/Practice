@@ -18,7 +18,9 @@
                     </el-table-column>
                     <el-table-column align="center" label="大头贴">
                         <template slot-scope="scope">
-                            <el-avatar shape="square" :size="100" :src="scope.row.url"></el-avatar>
+                            <span @click="singerDetails(scope.row)">
+                                <el-avatar shape="square" :size="100" :src="scope.row.url"></el-avatar>
+                            </span>  
                         </template>
                     </el-table-column>
                 </el-table>
@@ -59,7 +61,9 @@ export default {
             pageSize: 5,
             currentPage: 1,
             singerImgUrl: [],
-            getsingerImgUrl: []
+            getsingerImgUrl: [],
+            setupStatus:0,
+            singermusicList:[]
         };
     },
     created() {
@@ -142,11 +146,14 @@ export default {
                 dataType : 'jsonp',
                 jsonp : 'jsonpCallback',
                 success:res => {
-                    // console.log(res);
+                     for (let index = 0; index < res.data.song.itemlist.length; index++) {
+                        res.data.song.itemlist[index]['setupStatus'] = this.setupStatus;  
+                     }
                     this.$router.push({
                         path:'/singerDetails',
                         query:{
-                            res : res
+                            res : res,
+                            Fsinger_name : row.Fsinger_name
                         }
                     })
                 }
