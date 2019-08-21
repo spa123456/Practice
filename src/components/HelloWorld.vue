@@ -62,8 +62,6 @@ export default {
             currentPage: 1,
             singerImgUrl: [],
             getsingerImgUrl: [],
-            setupStatus:0,
-            singermusicList:[]
         };
     },
     created() {
@@ -146,13 +144,9 @@ export default {
                 dataType : 'jsonp',
                 jsonp : 'jsonpCallback',
                 success:res => {
-                     for (let index = 0; index < res.data.song.itemlist.length; index++) {
-                        res.data.song.itemlist[index]['setupStatus'] = this.setupStatus;  
-                     }
                     this.$router.push({
                         path:'/singerDetails',
                         query:{
-                            res : res,
                             Fsinger_name : row.Fsinger_name
                         }
                     })
@@ -161,12 +155,7 @@ export default {
         },
         // 播放音乐使用音乐ID播放
         player(musicId) {
-            let onplay = () => {
-                this.flag = !this.flag;
-                console.log(this.flag);
-            };
-            onplay();
-            this.flag ? player.play(musicId) : player.pause();
+            player.play(musicId)
         },
 
 
@@ -175,9 +164,7 @@ export default {
             this.player("004dFFPd4JNv8q");
         },
         stopmusic() {
-            this.musicList();
             player.pause()
-            this.flag = !this.flag
         }
     }
 };
