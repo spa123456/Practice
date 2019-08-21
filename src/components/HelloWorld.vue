@@ -86,7 +86,6 @@ export default {
                     const element = this.singerIdData[index].Fsinger_mid; //遍历每一条数据，通过歌手的名字在请求图片
                     this.singerImgUrl.push(this.getsingerImg(element));
                 }
-                // console.log(this.singerImgUrl)
                 this.getCurrentPageData();
             });
         },
@@ -131,13 +130,12 @@ export default {
          * @author lisheng
          **/
         singerDetails(row) {
-         
-                this.$router.push({
-                    path: "/singerDetails",
-                    query: {
-                        Fsinger_name: row.Fsinger_name
-                    }
-                });
+            this.$router.push({
+                path: "/singerDetails",
+                query: {
+                    Fsinger_name: row.Fsinger_name
+                }
+            });
         },
         // 播放音乐使用音乐ID播放
         player(musicId) {
@@ -145,9 +143,15 @@ export default {
         },
 
         playmusic() {
-            this.player("004dFFPd4JNv8q");
+            this.player("002PshzB3eefZv");
         },
         stopmusic() {
+            player.pause();
+        }
+    },
+    watch: {
+        '$route.path':()=>{
+            console.log(to,from);
             player.pause();
         }
     }

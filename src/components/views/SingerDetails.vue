@@ -108,6 +108,12 @@ export default {
             mid.setupStatus=0;
             player.pause();
         }
+    },
+    watch: {
+        '$route':(to,from)=>{
+            console.log(to,from);
+            player.pause();
+        }
     }
 };
 </script>
