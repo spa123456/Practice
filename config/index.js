@@ -10,7 +10,22 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    /**
+    * @description 配置的跨域请求时候访问的API
+    * @param {} 
+    * @return 
+    * @author lisheng
+    **/
+    proxyTable: {
+      '/api':{
+        target:'https://c.y.qq.com',
+        changeOrigin:true,             //跨域请求设置
+        secure:false,             //如果是https要设置
+        pathRewrite:{
+          '^/api':'/'          //这里指使用api代替target里面的地址
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

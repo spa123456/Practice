@@ -10,17 +10,20 @@
             <el-button type="primary" @click="stopmusic">bbb</el-button>
             <el-main>
                 <el-table :data="currentPageData" style="width: 80%;margin:0 auto">
-                    <el-table-column type="index" label="序号" align="center" ></el-table-column>
+                    <el-table-column type="index" label="序号" align="center"></el-table-column>
                     <el-table-column label="姓名" align="center">
                         <template slot-scope="scope">
-                            <el-button type="primary" @click="singerDetails(scope.row)">{{scope.row.Fsinger_name}}</el-button>
+                            <el-button
+                                type="primary"
+                                @click="singerDetails(scope.row)"
+                            >{{scope.row.Fsinger_name}}</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" label="大头贴">
                         <template slot-scope="scope">
                             <span @click="singerDetails(scope.row)">
                                 <el-avatar shape="square" :size="100" :src="scope.row.url"></el-avatar>
-                            </span>  
+                            </span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -40,7 +43,6 @@
     </el-container>
 </template>
 <script>
-import $ from "jquery"; //导入juqery
 const params = {
     filter: true,
     loop: true,
@@ -61,7 +63,7 @@ export default {
             pageSize: 5,
             currentPage: 1,
             singerImgUrl: [],
-            getsingerImgUrl: [],
+            getsingerImgUrl: []
         };
     },
     created() {
@@ -75,27 +77,17 @@ export default {
          * @author lisheng
          **/
         musicList() {
-            $.ajax({
-                url:
-                    "https://c.y.qq.com/v8/fcg-bin/v8.fcg?g_tk=5381&inCharset=utf-8&outCharset=utf-8&notice=0&format=jsonp&channel=singer&page=list&key=all_all_all&pagesize=100&pagenum=1&hostUin=0&needNewCode=0&platform=yqq",
-                type: "get",
-                dataType: "jsonp",
-                jsonp: "jsonpCallback",
-                success: res => {
-                    this.singerIdData = res.data.list;
-                    this.total = res.data.per_page; //总数
-
-                    for (
-                        let index = 0;
-                        index < this.singerIdData.length;
-                        index++
-                    ) {
-                        const element = this.singerIdData[index].Fsinger_mid;
-                        this.singerImgUrl.push(this.getsingerImg(element));
-                    }
-                    // console.log(this.singerImgUrl)
-                    this.getCurrentPageData();
+            let url =
+                "/api/v8/fcg-bin/v8.fcg?g_tk=5381&inCharset=utf-8&outCharset=utf-8&notice=0&format=jsonp&channel=singer&page=list&key=all_all_all&pagesize=100&pagenum=1&hostUin=0&needNewCode=0&platform=yqq";
+            this.$axios.get(url).then(res => {
+                this.singerIdData = res.data.data.list;
+                this.total = res.data.data.per_page; //总数
+                for (let index = 0; index < this.singerIdData.length; index++) {
+                    const element = this.singerIdData[index].Fsinger_mid; //遍历每一条数据，通过歌手的名字在请求图片
+                    this.singerImgUrl.push(this.getsingerImg(element));
                 }
+                // console.log(this.singerImgUrl)
+                this.getCurrentPageData();
             });
         },
         /**
@@ -129,42 +121,34 @@ export default {
          * @author lisheng
          **/
         getsingerImg(row) {
+            // 返回一个图片的url 用于在大头贴是的src直接使用
             return (this.singerImgUrlitme = `https://y.gtimg.cn/music/photo_new/T001R300x300M000${row}.jpg?max_age=2592000`);
         },
         /**
-        * @description 歌手详情页面
-        * @param {} 
-        * @return 
-        * @author lisheng
-        **/
-        singerDetails(row){
-            $.ajax({
-                url : `https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?is_xml=0&format=jsonp&g_tk=1742895503&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&key=${row.Fsinger_name}`,
-                type : 'get',
-                dataType : 'jsonp',
-                jsonp : 'jsonpCallback',
-                success:res => {
-                    this.$router.push({
-                        path:'/singerDetails',
-                        query:{
-                            Fsinger_name : row.Fsinger_name
-                        }
-                    })
-                }
-            })
+         * @description 歌手详情页面跳转
+         * @param {}
+         * @return
+         * @author lisheng
+         **/
+        singerDetails(row) {
+         
+                this.$router.push({
+                    path: "/singerDetails",
+                    query: {
+                        Fsinger_name: row.Fsinger_name
+                    }
+                });
         },
         // 播放音乐使用音乐ID播放
         player(musicId) {
-            player.play(musicId)
+            player.play(musicId);
         },
 
-
         playmusic() {
-            // this.musicList()
             this.player("004dFFPd4JNv8q");
         },
         stopmusic() {
-            player.pause()
+            player.pause();
         }
     }
 };
