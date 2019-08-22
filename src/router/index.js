@@ -15,7 +15,7 @@ const router = new Router({
     {
       path: '/singerDetails',
       name: 'singerDetails',
-      component: () => import('@/components/views/SingerDetails')
+      component: () => import('@/components/views/singer/SingerDetails')
     }
   ]
 })

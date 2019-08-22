@@ -119,11 +119,11 @@ export default {
 </script>
 <style scoped>
 .playmusic {
-    background: url("../../assets/playmusic.png") no-repeat center;
+    background: url("../../../assets/playmusic.png") no-repeat center;
     background-size: 80%;
 }
 .stopmusic {
-    background: url("../../assets/stopmusic.png") no-repeat center;
+    background: url("../../../assets/stopmusic.png") no-repeat center;
     background-size: 80%;
 }
 </style>
