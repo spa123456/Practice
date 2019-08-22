@@ -9,8 +9,12 @@ const router = new Router({
     {
       path: '/',
       name: 'login',
-      component: () => import('@/components/HelloWorld'),
-      children: []
+      component: () => import('@/components/Home'),
+      children: [{
+        path: '/homeRecommend',
+        name: 'homeRecommend',
+        component: () => import('@/components/views/homeRecommend/homeRecommend')
+      }]
     },
     {
       path: '/singerDetails',
