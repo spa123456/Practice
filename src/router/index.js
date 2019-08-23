@@ -9,6 +9,7 @@ const router = new Router({
     {
       path: '/',
       name: 'login',
+      redirect: '/homeRecommend',
       component: () => import('@/components/Home'),
       children: [{
         path: '/homeRecommend',

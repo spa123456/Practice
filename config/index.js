@@ -24,7 +24,15 @@ module.exports = {
         pathRewrite:{
           '^/api':'/'          //这里指使用api代替target里面的地址
         }
-      }
+      },
+      '/apifirst':{
+        target:'https://u.y.qq.com',
+        changeOrigin:true,             //跨域请求设置
+        secure:false,             //如果是https要设置
+        pathRewrite:{
+          '^/apifirst':'/'          //这里指使用api代替target里面的地址
+        }
+      },
     },
 
     // Various Dev Server settings
