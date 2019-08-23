@@ -15,6 +15,11 @@ const router = new Router({
         path: '/homeRecommend',
         name: 'homeRecommend',
         component: () => import('@/components/views/homeRecommend/homeRecommend')
+      },
+      {
+        path: '/HelloWorld',
+        name: 'HelloWorld',
+        component: () => import('@/components/views/singer/HelloWorld')
       }]
     },
     {

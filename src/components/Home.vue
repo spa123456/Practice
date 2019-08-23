@@ -81,8 +81,6 @@ export default {
     methods:{
         // 路由切换
         goRuter(){
-            console.log('aa');
-            
             this.$router.push('homeRecommend')
         }
     }
