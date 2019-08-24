@@ -1,5 +1,5 @@
 <template>
-    <el-container style="width:100%">
+    <el-container style="width:100%;margin-top:50px">
         <el-header style="width:80%;margin:0 auto;">
             <el-carousel :interval="4000" type="card" height="200px">
                 <el-carousel-item v-for="item in 6" :key="item">

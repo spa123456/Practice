@@ -52,15 +52,15 @@
             </el-container>
             <div class="home_header_menunav">
                 <el-row type="flex" class="row-bg" justify="center">
-                    <el-col :span="2"><div class="grid-content " @click="goRuter()">首页</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">歌手</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">新碟</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">排行榜</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">分类歌单</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">电台</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">MV</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">数字专辑</div></el-col>
-                    <el-col :span="2"><div class="grid-content ">票务</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">首页</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('HelloWorld')">歌手</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">新碟</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">排行榜</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">分类歌单</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">电台</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">MV</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">数字专辑</div></el-col>
+                    <el-col :span="2"><div class="grid-content " @click="goRuter('homeRecommend')">票务</div></el-col>
                 </el-row>
             </div>
         </el-header>
@@ -75,13 +75,12 @@
 export default {
     data(){
         return{
-
         }
     },
     methods:{
         // 路由切换
-        goRuter(){
-            this.$router.push('homeRecommend')
+        goRuter(name){
+            this.$router.push(name)
         }
     }
 };
