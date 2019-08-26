@@ -29,8 +29,8 @@
                     <el-row type="flex" class="row-bg" justify="end">
                         <el-col :span="7">
                             <div class="grid-content bg-purple">
-                                <el-input placeholder="请输入内容">
-                                    <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                                <el-input placeholder="请输入内容" v-model="songname">
+                                    <i slot="suffix" class="el-input__icon el-icon-search" @click="getmusic()"></i>
                                 </el-input>
                             </div>
                         </el-col>
@@ -75,12 +75,17 @@
 export default {
     data(){
         return{
+            songname:''
         }
     },
     methods:{
         // 路由切换
         goRuter(name){
             this.$router.push(name)
+        },
+        getmusic(){
+            console.log(this.songname);
+            
         }
     }
 };
