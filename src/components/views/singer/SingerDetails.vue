@@ -103,6 +103,8 @@ export default {
                 ? (this.singerDetails[index].setupStatus = 1)
                 : (this.singerDetails[index].setupStatus = 0);
             player.play(mid.mid);
+            console.log(mid);
+            
         },
         stopmusic(mid) {
             mid.setupStatus=0;
