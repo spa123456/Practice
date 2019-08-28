@@ -5,31 +5,31 @@
                 <el-header class="recommend-song">歌单推荐</el-header>
                 <el-main class="recommend-song-list">
                     <el-header>
-                        <el-row type="flex" class="row-bg" justify="center">
+                        <el-row type="flex" class="row-bg row-first" justify="center">
                             <el-col :span="2">
-                                <div class="grid-content">为你推荐</div>
+                                <div :class="{'grid-content':isactive}">为你推荐</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">情歌</div>
+                                <div :class="{'grid-content':isactive}">情歌</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">节奏控</div>
+                                <div :class="{'grid-content':isactive}">节奏控</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">网络歌曲</div>
+                                <div :class="{'grid-content':isactive}">网络歌曲</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">官方歌曲</div>
+                                <div :class="{'grid-content':isactive}">官方歌曲</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">经典</div>
+                                <div :class="{'grid-content':isactive}">经典</div>
                             </el-col>
                         </el-row>
                     </el-header>
                     <el-main>
                         <el-carousel
                             trigger="click"
-                            height="300px"
+                            height="330px"
                             :interval="5000"
                             @change="recommendonchange"
                             :autoplay="false"
@@ -59,29 +59,29 @@
                     <el-header>
                         <el-row type="flex" class="row-bg" justify="center">
                             <el-col :span="2">
-                                <div class="grid-content">最新</div>
+                                <div :class="{'grid-content':isactive}">最新</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">内地</div>
+                                <div :class="{'grid-content':isactive}">内地</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">港台</div>
+                                <div :class="{'grid-content':isactive}">港台</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">韩国</div>
+                                <div :class="{'grid-content':isactive}">韩国</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">欧美</div>
+                                <div :class="{'grid-content':isactive}">欧美</div>
                             </el-col>
                             <el-col :span="2">
-                                <div class="grid-content">日本</div>
+                                <div :class="{'grid-content':isactive}">日本</div>
                             </el-col>
                         </el-row>
                     </el-header>
                     <el-main>
                         <el-carousel
                             trigger="click"
-                            height="300px"
+                            height="400px"
                             :interval="5000"
                             @change="nwemusiconchange"
                             :autoplay="false"
@@ -89,13 +89,18 @@
                             <el-carousel-item
                                 v-for="(item,index) in newpageIndex"
                                 :key="index"
-                                class="carousel_css"
+                                class="newcarousel_css"
                             >
                                 <div v-for="(item,index) in newCurrentmusicdata" :key="index">
-                                    <div>
-                                        <img :src="item.cover" alt srcset width="230" height="230" />
-                                    </div>
-                                    <span>{{item.album_name}}</span>
+                                    <span>
+                                        <img :src="item.url" width="86" height="86" />
+                                    </span>
+                                    <span>
+                                        <span class="singer-musicname font_14">{{item.album_name}}</span>
+                                        <span class="singer-musicname font_14 font_color_ccc">{{item.singers[0].singer_name}}</span>
+                                    </span>
+                                  
+                                    <span class="time-musicname font_14 font_color_ccc">{{item.public_time}}</span>
                                 </div>
                             </el-carousel-item>
                         </el-carousel>
@@ -120,6 +125,8 @@ export default {
             newpageSize:9,
             newcurrentPage:1,
             newpageIndex:1,
+            newmusicimg:[],//新歌推荐获取的img
+            isactive:false,
         };
     },
     mounted() {
@@ -140,8 +147,9 @@ export default {
                 this.getCurrentPageData();//
                 let num = parseInt(this.musiclistdata.length / this.pageSize);
                 this.pageIndex = num;
-
+                
                 this.newmusiclist = res.data.new_album.data.list//新歌首发的数据 (album_mid 歌曲ID)(album_name歌曲名字)(singers:[歌手]) 
+                // console.log(this.newmusiclist);
                 this.getnewmusicCurrentPageData()
                 let newnum = parseInt(this.newmusiclist.length / this.newpageSize)
                 this.newpageIndex = newnum
@@ -178,8 +186,12 @@ export default {
         getnewmusicCurrentPageData(){
             let begin = (this.newcurrentPage - 1) * this.newpageSize;
             let end = this.newcurrentPage * this.newpageSize;
-            this.newCurrentmusicdata = this.newmusiclist.slice(begin,end)
-            console.log(this.newCurrentmusicdata);            
+            this.newCurrentmusicdata = this.newmusiclist.slice(begin,end)    
+            //遍历得到对应的专辑的图片   
+            this.newCurrentmusicdata.forEach((itme,index) => {
+                let url = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${itme.album_mid}.jpg?max_age=2592000`
+                this.$set(this.newCurrentmusicdata[index],'url',url)
+            })          
         },
         /**
         * @description 新歌首发轮播改变的数据
@@ -190,7 +202,7 @@ export default {
        nwemusiconchange(a,i){
            this.newcurrentPage = a + 1
            this.getnewmusicCurrentPageData()
-       }
+       },
     }
 };
 </script>
@@ -213,13 +225,25 @@ export default {
     flex: 1;
     text-align: left;
 }
+.newcarousel_css{
+    display: flex;
+    flex-wrap: wrap;
+}
+.newcarousel_css >div {
+    display: inline-block;
+    width: 33%;
+    text-align: left;
+    position: relative;
+}
+.newcarousel_css >div >span {
+    display: inline-block;
+    vertical-align: middle
+}
+
 .modular_header {
     width: 100%;
     display: block;
     background: linear-gradient(rgb(255, 255, 255), rgb(240, 237, 237));
-}
-.el-carousel__button {
-    color: black;
 }
 .font_14{
     font-size: 14px;  
@@ -232,5 +256,24 @@ export default {
 }
 .font_color_ccc{
     color: rgb(179, 178, 178);
+}
+.singer-musicname{
+    display: block;
+    padding-left: 10px
+}
+.time-musicname{
+    position: absolute;
+    right: 10px;
+    top:43px;
+    transform: translateY(-50%)
+}
+.row-first > .el-col:hover{
+    color: #67C23A;
+}
+.row-first > .el-col{
+    padding: 5px;
+}
+.grid-content{
+    color: #67C23A;
 }
 </style>

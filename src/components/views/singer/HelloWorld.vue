@@ -1,15 +1,15 @@
 <template>
-    <el-container style="width:100%;margin-top:50px">
+    <el-container style="width:100%;margin-top:0">
         <el-header style="width:80%;margin:0 auto;">
-            <el-carousel :interval="4000" type="card" height="200px">
+            <!-- <el-carousel :interval="4000" type="card" height="200px">
                 <el-carousel-item v-for="item in 6" :key="item">
                     <h3 class="medium">{{ item }}</h3>
                 </el-carousel-item>
             </el-carousel>
             <el-button type="primary" @click="playmusic">aaa</el-button>
-            <el-button type="primary" @click="stopmusic">bbb</el-button>
+            <el-button type="primary" @click="stopmusic">bbb</el-button> -->
             <el-main>
-                <el-table :data="currentPageData" style="width: 80%;margin:0 auto">
+                <el-table :data="currentPageData" style="width: 80%;margin:50px auto">
                     <el-table-column type="index" label="序号" align="center"></el-table-column>
                     <el-table-column label="姓名" align="center">
                         <template slot-scope="scope">
